@@ -1,4 +1,4 @@
-package net.lustenauer.snake.entity;
+package net.lustenauer.snake.common;
 
 /**
  * Created by Patric Hollenstein on 05.02.18.

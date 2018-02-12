@@ -1,6 +1,7 @@
 package net.lustenauer.snake.entity;
 
 import com.badlogic.gdx.utils.Array;
+import net.lustenauer.snake.common.Direction;
 import net.lustenauer.snake.config.GameConfig;
 
 
@@ -9,6 +10,7 @@ import net.lustenauer.snake.config.GameConfig;
  *
  * @author Patric Hollenstein
  */
+@Deprecated
 public class Snake {
 
     /*
@@ -16,7 +18,7 @@ public class Snake {
      */
     private final Array<BodyPart> bodyParts = new Array<BodyPart>();
     private SnakeHead head;
-    private Direction direction = Direction.RIGHT;
+    private net.lustenauer.snake.common.Direction direction = net.lustenauer.snake.common.Direction.RIGHT;
 
     private float xBeforeUpdate;
     private float yBefoerUpdate;
@@ -48,7 +50,7 @@ public class Snake {
         updateBodyParts();
     }
 
-    public void setDirection(Direction newDirection) {
+    public void setDirection(net.lustenauer.snake.common.Direction newDirection) {
         if (!direction.isOposit(newDirection) || bodyParts.size == 0) {
             direction = newDirection;
         }

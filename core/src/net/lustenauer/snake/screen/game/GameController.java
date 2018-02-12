@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Logger;
 import net.lustenauer.snake.collision.CollisionListener;
+import net.lustenauer.snake.common.Direction;
 import net.lustenauer.snake.common.GameManager;
 import net.lustenauer.snake.config.GameConfig;
 import net.lustenauer.snake.entity.*;
@@ -16,6 +17,7 @@ import net.lustenauer.snake.entity.*;
  *
  * @author Patric Hollenstein
  */
+@Deprecated
 public class GameController {
 
     /*
@@ -88,11 +90,11 @@ public class GameController {
         boolean downPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
 
         if (leftPressed) {
-            snake.setDirection(Direction.LEFT);
+            snake.setDirection(net.lustenauer.snake.common.Direction.LEFT);
         } else if (rightPressed) {
-            snake.setDirection(Direction.RIGHT);
+            snake.setDirection(net.lustenauer.snake.common.Direction.RIGHT);
         } else if (upPressed) {
-            snake.setDirection(Direction.UP);
+            snake.setDirection(net.lustenauer.snake.common.Direction.UP);
         } else if (downPressed) {
             getSnake().setDirection(Direction.DOWN);
         }

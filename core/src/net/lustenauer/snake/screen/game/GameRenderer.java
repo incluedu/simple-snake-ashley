@@ -26,6 +26,7 @@ import net.lustenauer.snake.util.debug.DebugCameraController;
  *
  * @author Patric Hollenstein
  */
+@Deprecated
 public class GameRenderer implements Disposable {
     /*
      * CONSTANTS

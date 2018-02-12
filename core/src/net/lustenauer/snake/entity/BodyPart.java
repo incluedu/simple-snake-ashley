@@ -7,6 +7,7 @@ import net.lustenauer.snake.config.GameConfig;
  *
  * @author Patric Hollenstein
  */
+@Deprecated
 public class BodyPart extends EntityBase {
 
     private boolean justAdded = true;

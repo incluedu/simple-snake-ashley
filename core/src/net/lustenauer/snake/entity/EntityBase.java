@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * @author Patric Hollenstein
  */
+@Deprecated
 public abstract class EntityBase {
 
     /*
