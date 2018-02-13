@@ -1,4 +1,4 @@
-package net.lustenauer.snake.system;
+package net.lustenauer.snake.system.debug;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
