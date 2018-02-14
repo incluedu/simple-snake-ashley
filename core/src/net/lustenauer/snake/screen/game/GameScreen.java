@@ -14,6 +14,7 @@ import net.lustenauer.snake.common.GameManager;
 import net.lustenauer.snake.config.GameConfig;
 import net.lustenauer.snake.screen.menu.MenuScreen;
 import net.lustenauer.snake.system.debug.DebugCameraSystem;
+import net.lustenauer.snake.system.debug.DebugRenderSystem;
 import net.lustenauer.snake.system.debug.GridRenderSystem;
 import net.lustenauer.snake.util.GdxUtils;
 
@@ -61,8 +62,9 @@ public class GameScreen extends ScreenAdapter {
         engine = new PooledEngine();
         factory = new EntityFactory(engine);
 
-        engine.addSystem(new GridRenderSystem(viewport, renderer));
         engine.addSystem(new DebugCameraSystem(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, camera));
+        engine.addSystem(new GridRenderSystem(viewport, renderer));
+        engine.addSystem(new DebugRenderSystem(viewport, renderer));
 
         log.debug("entity count before adding head= " + engine.getEntities().size());
         factory.createSnakeHead();
