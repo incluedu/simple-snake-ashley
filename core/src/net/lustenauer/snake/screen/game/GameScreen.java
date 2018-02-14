@@ -1,6 +1,9 @@
 package net.lustenauer.snake.screen.game;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,6 +45,8 @@ public class GameScreen extends ScreenAdapter {
     private PooledEngine engine;
     private EntityFactory factory;
 
+    private Entity snake;
+
     /*
      * CONSTRUCTORS
      */
@@ -66,14 +71,21 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new GridRenderSystem(viewport, renderer));
         engine.addSystem(new DebugRenderSystem(viewport, renderer));
 
-        log.debug("entity count before adding head= " + engine.getEntities().size());
-        factory.createSnakeHead();
-        log.debug("entity count after adding head= " + engine.getEntities().size());
+        log.debug("entity count before adding snake= " + engine.getEntities().size());
+        snake = factory.createSnake();
+        log.debug("entity count after adding snake= " + engine.getEntities().size());
     }
 
     @Override
     public void render(float delta) {
         GdxUtils.clearScreen();
+
+        // debug
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            log.debug("before remove count= " + engine.getEntities().size());
+            engine.removeEntity(snake);
+            log.debug("after remove count= " + engine.getEntities().size());
+        }
 
         engine.update(delta);
 

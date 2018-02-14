@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import net.lustenauer.snake.component.BoundsComponent;
 import net.lustenauer.snake.component.DimensionComponent;
 import net.lustenauer.snake.component.PositionComponent;
+import net.lustenauer.snake.component.SnakeComponent;
 import net.lustenauer.snake.config.GameConfig;
 
 /**
@@ -29,7 +30,24 @@ public class EntityFactory {
     /*
      * PUBLIC METHODES
      */
-    public void createSnakeHead() {
+    public Entity createSnake(){
+
+        // snake
+        SnakeComponent snake = engine.createComponent(SnakeComponent.class);
+        snake.head=createSnakeHead();
+
+        // entity
+        Entity entity = engine.createEntity();
+        entity.add(snake);
+
+        // add to engine
+        engine.addEntity(entity);
+
+        return entity;
+    }
+
+
+    public Entity createSnakeHead() {
         // position
         PositionComponent position = engine.createComponent(PositionComponent.class);
 
@@ -51,6 +69,8 @@ public class EntityFactory {
 
         // add to engine
         engine.addEntity(entity);
+
+        return entity;
     }
 
 }
