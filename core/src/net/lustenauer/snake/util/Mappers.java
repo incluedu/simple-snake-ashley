@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import net.lustenauer.snake.component.BoundsComponent;
 import net.lustenauer.snake.component.DimensionComponent;
 import net.lustenauer.snake.component.PositionComponent;
+import net.lustenauer.snake.component.SnakeComponent;
 
 /**
  * Created by Patric Hollenstein on 14.02.18.
@@ -23,6 +24,9 @@ public final class Mappers {
 
     public static final ComponentMapper<PositionComponent> POSITION =
             ComponentMapper.getFor(PositionComponent.class);
+
+    public static final ComponentMapper<SnakeComponent> SNAKE =
+            ComponentMapper.getFor(SnakeComponent.class);
 
 
     /*
