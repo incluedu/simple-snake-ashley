@@ -1,10 +1,7 @@
 package net.lustenauer.snake.util;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import net.lustenauer.snake.component.BoundsComponent;
-import net.lustenauer.snake.component.DimensionComponent;
-import net.lustenauer.snake.component.PositionComponent;
-import net.lustenauer.snake.component.SnakeComponent;
+import net.lustenauer.snake.component.*;
 
 /**
  * Created by Patric Hollenstein on 14.02.18.
@@ -28,6 +25,11 @@ public final class Mappers {
     public static final ComponentMapper<SnakeComponent> SNAKE =
             ComponentMapper.getFor(SnakeComponent.class);
 
+    public static final ComponentMapper<MovementComponent> MOVEMENT =
+            ComponentMapper.getFor(MovementComponent.class);
+
+    public static final ComponentMapper<DirectionComponent> DIRECTION =
+            ComponentMapper.getFor(DirectionComponent.class);
 
     /*
      * CONSTRUCTORS
