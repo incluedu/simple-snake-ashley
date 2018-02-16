@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import net.lustenauer.snake.component.BoundsComponent;
+import net.lustenauer.snake.component.MovementComponent;
 import net.lustenauer.snake.util.Mappers;
 
 /**

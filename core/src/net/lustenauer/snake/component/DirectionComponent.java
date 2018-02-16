@@ -14,7 +14,7 @@ public class DirectionComponent implements Component, Pool.Poolable {
     /*
      * ATTRIBUTES
      */
-    public Direction direction = Direction.LEFT;
+    public Direction direction = Direction.RIGHT;
 
     /*
      * PUBLIC METHODES
@@ -38,6 +38,6 @@ public class DirectionComponent implements Component, Pool.Poolable {
 
     @Override
     public void reset() {
-        direction = Direction.LEFT;
+        direction = Direction.RIGHT;
     }
 }
