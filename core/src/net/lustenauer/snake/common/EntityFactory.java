@@ -65,6 +65,9 @@ public class EntityFactory {
         // movement
         MovementComponent movement = engine.createComponent(MovementComponent.class);
 
+        // player
+        PlayerComponent player = engine.createComponent(PlayerComponent.class);
+
         // entity
         Entity entity = engine.createEntity();
         entity.add(position);
@@ -72,6 +75,7 @@ public class EntityFactory {
         entity.add(bounds);
         entity.add(direction);
         entity.add(movement);
+        entity.add(player);
 
         // add to engine
         engine.addEntity(entity);

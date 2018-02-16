@@ -40,4 +40,8 @@ public class DirectionComponent implements Component, Pool.Poolable {
     public void reset() {
         direction = Direction.RIGHT;
     }
+
+    public boolean isOpposite(Direction otherDirection) {
+        return otherDirection.isOposit(otherDirection);
+    }
 }
