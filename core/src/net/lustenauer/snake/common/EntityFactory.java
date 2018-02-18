@@ -68,6 +68,9 @@ public class EntityFactory {
         // player
         PlayerComponent player = engine.createComponent(PlayerComponent.class);
 
+        // world wrap
+        WorldWrapComponent worldWarp = engine.createComponent(WorldWrapComponent.class);
+
         // entity
         Entity entity = engine.createEntity();
         entity.add(position);
@@ -76,6 +79,7 @@ public class EntityFactory {
         entity.add(direction);
         entity.add(movement);
         entity.add(player);
+        entity.add(worldWarp);
 
         // add to engine
         engine.addEntity(entity);

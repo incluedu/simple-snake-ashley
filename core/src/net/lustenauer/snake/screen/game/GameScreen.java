@@ -16,10 +16,7 @@ import net.lustenauer.snake.common.EntityFactory;
 import net.lustenauer.snake.common.GameManager;
 import net.lustenauer.snake.config.GameConfig;
 import net.lustenauer.snake.screen.menu.MenuScreen;
-import net.lustenauer.snake.system.BoundsSystem;
-import net.lustenauer.snake.system.DirectionSystem;
-import net.lustenauer.snake.system.PlayerControlSystem;
-import net.lustenauer.snake.system.SnakeMovementSystem;
+import net.lustenauer.snake.system.*;
 import net.lustenauer.snake.system.debug.DebugCameraSystem;
 import net.lustenauer.snake.system.debug.DebugRenderSystem;
 import net.lustenauer.snake.system.debug.GridRenderSystem;
@@ -81,6 +78,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new SnakeMovementSystem());
         engine.addSystem(new BoundsSystem());
         engine.addSystem(new PlayerControlSystem());
+        engine.addSystem(new WorldWrapSystem());
 
         log.debug("entity count before adding snake= " + engine.getEntities().size());
         snake = factory.createSnake();
