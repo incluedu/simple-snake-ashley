@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Pool;
  *
  * @author Patric Hollenstein
  */
-public class SnakeComponent implements Component, Pool.Poolable{
+public class SnakeComponent implements Component, Pool.Poolable {
     /*
      * CONSTANTS
      */
@@ -33,5 +33,9 @@ public class SnakeComponent implements Component, Pool.Poolable{
         head = null;
         bodyParts.clear();
         log.debug("reset done");
+    }
+
+    public boolean hasBodyParts() {
+        return bodyParts.size > 0;
     }
 }
