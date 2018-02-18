@@ -34,6 +34,7 @@ public class EntityFactory {
         SnakeComponent snake = engine.createComponent(SnakeComponent.class);
         snake.head=createSnakeHead();
 
+
         // entity
         Entity entity = engine.createEntity();
         entity.add(snake);
@@ -80,6 +81,38 @@ public class EntityFactory {
         entity.add(movement);
         entity.add(player);
         entity.add(worldWarp);
+
+        // add to engine
+        engine.addEntity(entity);
+
+        return entity;
+    }
+
+    public Entity createBodyPart(float x ,float y){
+        // position
+        PositionComponent position = engine.createComponent(PositionComponent.class);
+        position.x = x;
+        position.y = y;
+
+        // dimension
+        DimensionComponent dimension = engine.createComponent(DimensionComponent.class);
+        dimension.width = GameConfig.COIN_SIZE;
+        dimension.height = GameConfig.COIN_SIZE;
+
+        // bounds
+        BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+        bounds.rectangle.setPosition(position.x, position.y);
+        bounds.rectangle.setSize(dimension.width, dimension.height);
+
+        // body part
+        BodyPartComponent bodyPart = engine.createComponent(BodyPartComponent.class);
+
+        // entity
+        Entity entity = engine.createEntity();
+        entity.add(position);
+        entity.add(dimension);
+        entity.add(bounds);
+        entity.add(bodyPart);
 
         // add to engine
         engine.addEntity(entity);

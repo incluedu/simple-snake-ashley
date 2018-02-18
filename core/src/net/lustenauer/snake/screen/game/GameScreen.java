@@ -80,7 +80,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new PlayerControlSystem());
         engine.addSystem(new WorldWrapSystem());
         engine.addSystem(new CoinSystem());
-        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new CollisionSystem(factory));
 
         log.debug("entity count before adding snake= " + engine.getEntities().size());
         snake = factory.createSnake();

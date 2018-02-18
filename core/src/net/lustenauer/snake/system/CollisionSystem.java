@@ -6,8 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Intersector;
+import net.lustenauer.snake.common.EntityFactory;
 import net.lustenauer.snake.component.BoundsComponent;
 import net.lustenauer.snake.component.CoinComponent;
+import net.lustenauer.snake.component.PositionComponent;
 import net.lustenauer.snake.component.SnakeComponent;
 import net.lustenauer.snake.config.GameConfig;
 import net.lustenauer.snake.util.Mappers;
@@ -21,19 +23,20 @@ public class CollisionSystem extends IntervalSystem {
     /*
      * CONSTANTS
      */
-    private static final Family SNAKE_FAMILY = Family.all(
-            SnakeComponent.class
-    ).get();
+    private static final Family SNAKE_FAMILY = Family.all(SnakeComponent.class).get();
+    private static final Family COIN_FAMILY = Family.all(CoinComponent.class).get();
 
-    private static final Family COIN_FAMILY = Family.all(
-            CoinComponent.class
-    ).get();
+    /*
+     * ATTRIBUTES
+     */
+    private final EntityFactory factory;
 
     /*
      * CONTROLLERS
      */
-    public CollisionSystem() {
+    public CollisionSystem(EntityFactory factory) {
         super(GameConfig.MOVE_TIME);
+        this.factory = factory;
     }
 
     /*
@@ -53,7 +56,13 @@ public class CollisionSystem extends IntervalSystem {
                 SnakeComponent snake = Mappers.SNAKE.get(snakeEntity);
 
                 if (coin.available && overlaps(snake.head, coinEntity)) {
+                    // mark coin as not available
                     coin.available = false;
+
+                    // get head position and add body part
+                    PositionComponent position = Mappers.POSITION.get(snake.head);
+                    Entity bodyPart = factory.createBodyPart(position.x, position.y);
+                    snake.bodyParts.insert(0,bodyPart);
                 }
             }
         }
