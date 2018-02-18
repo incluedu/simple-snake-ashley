@@ -50,14 +50,14 @@ public class EntityFactory {
         PositionComponent position = engine.createComponent(PositionComponent.class);
 
         // dimension
-        DimensionComponent dimesion = engine.createComponent(DimensionComponent.class);
-        dimesion.width = GameConfig.SNAKE_SIZE;
-        dimesion.height = GameConfig.SNAKE_SIZE;
+        DimensionComponent dimension = engine.createComponent(DimensionComponent.class);
+        dimension.width = GameConfig.SNAKE_SIZE;
+        dimension.height = GameConfig.SNAKE_SIZE;
 
         // bounds
         BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
         bounds.rectangle.setPosition(position.x, position.y);
-        bounds.rectangle.setSize(dimesion.width, dimesion.height);
+        bounds.rectangle.setSize(dimension.width, dimension.height);
 
         // direction
         DirectionComponent direction = engine.createComponent(DirectionComponent.class);
@@ -74,7 +74,7 @@ public class EntityFactory {
         // entity
         Entity entity = engine.createEntity();
         entity.add(position);
-        entity.add(dimesion);
+        entity.add(dimension);
         entity.add(bounds);
         entity.add(direction);
         entity.add(movement);
@@ -85,6 +85,35 @@ public class EntityFactory {
         engine.addEntity(entity);
 
         return entity;
+    }
+
+    public void createCoin(){
+        // position
+        PositionComponent position = engine.createComponent(PositionComponent.class);
+
+        // dimension
+        DimensionComponent dimension = engine.createComponent(DimensionComponent.class);
+        dimension.width = GameConfig.COIN_SIZE;
+        dimension.height = GameConfig.COIN_SIZE;
+
+        // bounds
+        BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+        bounds.rectangle.setPosition(position.x, position.y);
+        bounds.rectangle.setSize(dimension.width, dimension.height);
+
+        // coin
+        CoinComponent coin = engine.createComponent(CoinComponent.class);
+
+        // entity
+        Entity entity = engine.createEntity();
+        entity.add(position);
+        entity.add(dimension);
+        entity.add(bounds);
+        entity.add(coin);
+
+        // add to engine
+        engine.addEntity(entity);
+
     }
 
 }

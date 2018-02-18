@@ -16,7 +16,7 @@ public final class Mappers {
     public static final ComponentMapper<BoundsComponent> BOUNDS =
             ComponentMapper.getFor(BoundsComponent.class);
 
-    public static final ComponentMapper<DimensionComponent> DIMEMSION =
+    public static final ComponentMapper<DimensionComponent> DIMENSION =
             ComponentMapper.getFor(DimensionComponent.class);
 
     public static final ComponentMapper<PositionComponent> POSITION =
@@ -30,6 +30,9 @@ public final class Mappers {
 
     public static final ComponentMapper<DirectionComponent> DIRECTION =
             ComponentMapper.getFor(DirectionComponent.class);
+
+    public static final ComponentMapper<CoinComponent> COIN =
+            ComponentMapper.getFor(CoinComponent.class);
 
     /*
      * CONSTRUCTORS

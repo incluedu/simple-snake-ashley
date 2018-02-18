@@ -1,6 +1,5 @@
 package net.lustenauer.snake.system;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -38,7 +37,7 @@ public class BoundsSystem extends IteratingSystem{
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         PositionComponent position = Mappers.POSITION.get(entity);
-        DimensionComponent dimension = Mappers.DIMEMSION.get(entity);
+        DimensionComponent dimension = Mappers.DIMENSION.get(entity);
         BoundsComponent bounds = Mappers.BOUNDS.get(entity);
 
         bounds.rectangle.setPosition(position.x,position.y);
