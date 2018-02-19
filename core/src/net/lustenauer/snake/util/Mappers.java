@@ -34,6 +34,9 @@ public final class Mappers {
     public static final ComponentMapper<CoinComponent> COIN =
             ComponentMapper.getFor(CoinComponent.class);
 
+    public static final ComponentMapper<BodyPartComponent> BODY_PART =
+            ComponentMapper.getFor(BodyPartComponent.class);
+
     /*
      * CONSTRUCTORS
      */

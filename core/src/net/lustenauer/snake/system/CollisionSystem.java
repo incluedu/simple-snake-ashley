@@ -6,11 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.utils.Logger;
 import net.lustenauer.snake.common.EntityFactory;
-import net.lustenauer.snake.component.BoundsComponent;
-import net.lustenauer.snake.component.CoinComponent;
-import net.lustenauer.snake.component.PositionComponent;
-import net.lustenauer.snake.component.SnakeComponent;
+import net.lustenauer.snake.common.GameManager;
+import net.lustenauer.snake.component.*;
 import net.lustenauer.snake.config.GameConfig;
 import net.lustenauer.snake.util.Mappers;
 
@@ -48,6 +47,25 @@ public class CollisionSystem extends IntervalSystem {
         ImmutableArray<Entity> snakes = engine.getEntitiesFor(SNAKE_FAMILY);
         ImmutableArray<Entity> coins = engine.getEntitiesFor(COIN_FAMILY);
 
+        // head <--> body parts
+
+        for (Entity snakeEntity : snakes) {
+            SnakeComponent snake = Mappers.SNAKE.get(snakeEntity);
+
+            for (Entity bodyPartEntity : snake.bodyParts) {
+                BodyPartComponent bodyPart = Mappers.BODY_PART.get(bodyPartEntity);
+
+                if (bodyPart.justAdded) {
+                    bodyPart.justAdded = false;
+                    continue;
+                }
+
+                if (overlaps(snake.head, bodyPartEntity)) {
+                    GameManager.INSTANCE.setGameOver();
+                }
+
+            }
+        }
 
         // head <--> coin
         for (Entity snakeEntity : snakes) {
@@ -62,7 +80,7 @@ public class CollisionSystem extends IntervalSystem {
                     // get head position and add body part
                     PositionComponent position = Mappers.POSITION.get(snake.head);
                     Entity bodyPart = factory.createBodyPart(position.x, position.y);
-                    snake.bodyParts.insert(0,bodyPart);
+                    snake.bodyParts.insert(0, bodyPart);
                 }
             }
         }

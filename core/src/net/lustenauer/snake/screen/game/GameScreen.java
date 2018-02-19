@@ -86,6 +86,8 @@ public class GameScreen extends ScreenAdapter {
         snake = factory.createSnake();
         factory.createCoin();
         log.debug("entity count after adding snake= " + engine.getEntities().size());
+
+        GameManager.INSTANCE.reset();
     }
 
     @Override
