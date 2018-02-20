@@ -2,7 +2,7 @@ package net.lustenauer.snake.system;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,7 +18,7 @@ import net.lustenauer.snake.util.ZOrderComparator;
  *
  * @author Patric Hollenstein
  */
-public class RenderSystem extends IteratingSystem {
+public class RenderSystem extends SortedIteratingSystem {
     /*
      * CONSTANTS
      */
@@ -34,14 +34,13 @@ public class RenderSystem extends IteratingSystem {
      */
     private final SpriteBatch batch;
     private final Viewport viewport;
-    private final Array<Entity> renderQueue = new Array<Entity>();
 
     /*
      * CONSTRUCTORS
      */
 
     public RenderSystem(SpriteBatch batch, Viewport viewport) {
-        super(FAMILY);
+        super(FAMILY, ZOrderComparator.INSTANCE);
         this.batch = batch;
         this.viewport = viewport;
     }
@@ -52,40 +51,25 @@ public class RenderSystem extends IteratingSystem {
 
     @Override
     public void update(float deltaTime) {
-
-        super.update(deltaTime);
-
-        renderQueue.sort(ZOrderComparator.INSTANCE);
-        draw();
-        renderQueue.clear();
-    }
-
-    @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        renderQueue.add(entity);
-    }
-
-    /*
-     * PRIVATE METHODS
-     */
-    private void draw() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        for (Entity entity : renderQueue) {
-
-
-            PositionComponent position = Mappers.POSITION.get(entity);
-            DimensionComponent dimension = Mappers.DIMENSION.get(entity);
-            TextureComponent texture = Mappers.TEXTURE.get(entity);
-
-            batch.draw(texture.region,
-                    position.x, position.y,
-                    dimension.width, dimension.height
-            );
-        }
+        super.update(deltaTime);
 
         batch.end();
     }
+
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        PositionComponent position = Mappers.POSITION.get(entity);
+        DimensionComponent dimension = Mappers.DIMENSION.get(entity);
+        TextureComponent texture = Mappers.TEXTURE.get(entity);
+
+        batch.draw(texture.region,
+                position.x, position.y,
+                dimension.width, dimension.height
+        );
+    }
+
 }
