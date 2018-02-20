@@ -67,7 +67,7 @@ public class GameScreen extends ScreenAdapter {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         engine = new PooledEngine();
-        factory = new EntityFactory(engine);
+        factory = new EntityFactory(engine, assetManager);
 
         engine.addSystem(new DebugCameraSystem(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, camera));
         engine.addSystem(new GridRenderSystem(viewport, renderer));
@@ -81,6 +81,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new WorldWrapSystem());
         engine.addSystem(new CoinSystem());
         engine.addSystem(new CollisionSystem(factory));
+        engine.addSystem(new RenderSystem(game.getBatch(), viewport));
 
         log.debug("entity count before adding snake= " + engine.getEntities().size());
         snake = factory.createSnake();
@@ -123,4 +124,5 @@ public class GameScreen extends ScreenAdapter {
         renderer.dispose();
         engine.removeAllEntities();
     }
+
 }

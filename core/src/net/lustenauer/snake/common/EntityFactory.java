@@ -1,8 +1,12 @@
 package net.lustenauer.snake.common;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import net.lustenauer.snake.assets.AssetDescriptors;
+import net.lustenauer.snake.assets.RegionNames;
 import net.lustenauer.snake.component.*;
 import net.lustenauer.snake.config.GameConfig;
 
@@ -12,27 +16,35 @@ import net.lustenauer.snake.config.GameConfig;
  * @author Patric Hollenstein
  */
 public class EntityFactory {
+    private static final int BACKGROUND_Z_ORDER = 0;
+    private static final int COIN_Z_ORDER = 1;
+    private static final int BODY_PART_Z_ORDER = 2;
+    private static final int HEAD_Z_ORDER = 3;
 
     /*
      * ATTRIBUTES
      */
     private final PooledEngine engine;
+    private final AssetManager assetManager;
+    private TextureAtlas gamePlayAtlas;
 
     /*
      * CONSTRUCTORS
      */
-    public EntityFactory(PooledEngine engine) {
+    public EntityFactory(PooledEngine engine, AssetManager assetManager) {
         this.engine = engine;
+        this.assetManager = assetManager;
+        init();
     }
 
     /*
      * PUBLIC METHODES
      */
-    public Entity createSnake(){
+    public Entity createSnake() {
 
         // snake
         SnakeComponent snake = engine.createComponent(SnakeComponent.class);
-        snake.head=createSnakeHead();
+        snake.head = createSnakeHead();
 
 
         // entity
@@ -72,6 +84,14 @@ public class EntityFactory {
         // world wrap
         WorldWrapComponent worldWarp = engine.createComponent(WorldWrapComponent.class);
 
+        // texture
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        texture.region = gamePlayAtlas.findRegion(RegionNames.HEAD);
+
+        // zOrder
+        ZOrderComponent zOrder = engine.createComponent(ZOrderComponent.class);
+        zOrder.z = HEAD_Z_ORDER;
+
         // entity
         Entity entity = engine.createEntity();
         entity.add(position);
@@ -81,6 +101,8 @@ public class EntityFactory {
         entity.add(movement);
         entity.add(player);
         entity.add(worldWarp);
+        entity.add(texture);
+        entity.add(zOrder);
 
         // add to engine
         engine.addEntity(entity);
@@ -88,7 +110,7 @@ public class EntityFactory {
         return entity;
     }
 
-    public Entity createBodyPart(float x ,float y){
+    public Entity createBodyPart(float x, float y) {
         // position
         PositionComponent position = engine.createComponent(PositionComponent.class);
         position.x = x;
@@ -107,12 +129,22 @@ public class EntityFactory {
         // body part
         BodyPartComponent bodyPart = engine.createComponent(BodyPartComponent.class);
 
+        // texture
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        texture.region = gamePlayAtlas.findRegion(RegionNames.BODY);
+
+        // zOrder
+        ZOrderComponent zOrder = engine.createComponent(ZOrderComponent.class);
+        zOrder.z = BODY_PART_Z_ORDER;
+
         // entity
         Entity entity = engine.createEntity();
         entity.add(position);
         entity.add(dimension);
         entity.add(bounds);
         entity.add(bodyPart);
+        entity.add(texture);
+        entity.add(zOrder);
 
         // add to engine
         engine.addEntity(entity);
@@ -120,7 +152,7 @@ public class EntityFactory {
         return entity;
     }
 
-    public void createCoin(){
+    public void createCoin() {
         // position
         PositionComponent position = engine.createComponent(PositionComponent.class);
 
@@ -137,16 +169,33 @@ public class EntityFactory {
         // coin
         CoinComponent coin = engine.createComponent(CoinComponent.class);
 
+        // texture
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        texture.region = gamePlayAtlas.findRegion(RegionNames.COIN);
+
+        // zOrder
+        ZOrderComponent zOrder = engine.createComponent(ZOrderComponent.class);
+        zOrder.z = COIN_Z_ORDER;
+
         // entity
         Entity entity = engine.createEntity();
         entity.add(position);
         entity.add(dimension);
         entity.add(bounds);
         entity.add(coin);
+        entity.add(texture);
+        entity.add(zOrder);
 
         // add to engine
         engine.addEntity(entity);
 
+    }
+
+    /*
+     * PRIVATE METHODES
+     */
+    private void init() {
+        gamePlayAtlas = assetManager.get(AssetDescriptors.GAME_PLAY);
     }
 
 }
