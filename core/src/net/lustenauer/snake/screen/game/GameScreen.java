@@ -113,6 +113,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new HudRenderSystem(batch, hudViewport, font));
 
         log.debug("entity count before adding snake= " + engine.getEntities().size());
+        factory.createBackground();
         snake = factory.createSnake();
         factory.createCoin();
         log.debug("entity count after adding snake= " + engine.getEntities().size());
