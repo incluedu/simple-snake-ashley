@@ -13,11 +13,6 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class SnakeComponent implements Component, Pool.Poolable {
     /*
-     * CONSTANTS
-     */
-    private static final Logger log = new Logger(SnakeComponent.class.getName(), Logger.DEBUG);
-
-    /*
      * ATTRIBUTES
      */
     public final Array<Entity> bodyParts = new Array<Entity>();
@@ -29,10 +24,8 @@ public class SnakeComponent implements Component, Pool.Poolable {
      */
     @Override
     public void reset() {
-        log.debug("resetting snake component");
         head = null;
         bodyParts.clear();
-        log.debug("reset done");
     }
 
     public boolean hasBodyParts() {

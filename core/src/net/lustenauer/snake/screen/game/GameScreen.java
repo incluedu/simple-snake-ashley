@@ -23,6 +23,7 @@ import net.lustenauer.snake.config.GameConfig;
 import net.lustenauer.snake.screen.menu.MenuScreen;
 import net.lustenauer.snake.system.*;
 import net.lustenauer.snake.system.debug.DebugCameraSystem;
+import net.lustenauer.snake.system.debug.DebugInputSystem;
 import net.lustenauer.snake.system.debug.DebugRenderSystem;
 import net.lustenauer.snake.system.debug.GridRenderSystem;
 import net.lustenauer.snake.system.passive.SnakeSystem;
@@ -57,8 +58,6 @@ public class GameScreen extends ScreenAdapter {
     private Sound coinSound;
     private Sound loseSound;
     private CollisionListener listener;
-
-    private Entity snake;
 
     /*
      * CONSTRUCTORS
@@ -99,8 +98,8 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addSystem(new DebugCameraSystem(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, camera));
         engine.addSystem(new GridRenderSystem(viewport, renderer));
-
         engine.addSystem(new DebugRenderSystem(viewport, renderer));
+        engine.addSystem(new DebugInputSystem());
         engine.addSystem(new SnakeSystem());
         engine.addSystem(new DirectionSystem());
         engine.addSystem(new SnakeMovementSystem());
@@ -112,11 +111,9 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new RenderSystem(batch, viewport));
         engine.addSystem(new HudRenderSystem(batch, hudViewport, font));
 
-        log.debug("entity count before adding snake= " + engine.getEntities().size());
         factory.createBackground();
-        snake = factory.createSnake();
+        factory.createSnake();
         factory.createCoin();
-        log.debug("entity count after adding snake= " + engine.getEntities().size());
 
         GameManager.INSTANCE.reset();
     }
@@ -124,13 +121,6 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         GdxUtils.clearScreen();
-
-        // debug
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            log.debug("before remove count= " + engine.getEntities().size());
-            engine.removeEntity(snake);
-            log.debug("after remove count= " + engine.getEntities().size());
-        }
 
         engine.update(delta);
 
