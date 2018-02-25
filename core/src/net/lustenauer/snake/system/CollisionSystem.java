@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.utils.Logger;
+import net.lustenauer.snake.collision.CollisionListener;
 import net.lustenauer.snake.common.EntityFactory;
 import net.lustenauer.snake.common.GameManager;
 import net.lustenauer.snake.component.*;
@@ -29,13 +29,15 @@ public class CollisionSystem extends IntervalSystem {
      * ATTRIBUTES
      */
     private final EntityFactory factory;
+    private final CollisionListener listener;
 
     /*
      * CONTROLLERS
      */
-    public CollisionSystem(EntityFactory factory) {
+    public CollisionSystem(EntityFactory factory, CollisionListener listener) {
         super(GameConfig.MOVE_TIME);
         this.factory = factory;
+        this.listener = listener;
     }
 
     /*
@@ -61,6 +63,8 @@ public class CollisionSystem extends IntervalSystem {
                 }
 
                 if (overlaps(snake.head, bodyPartEntity)) {
+                    listener.lose();
+                    GameManager.INSTANCE.updateHighScore();
                     GameManager.INSTANCE.setGameOver();
                 }
 
@@ -82,6 +86,7 @@ public class CollisionSystem extends IntervalSystem {
                     Entity bodyPart = factory.createBodyPart(position.x, position.y);
                     snake.bodyParts.insert(0, bodyPart);
                     GameManager.INSTANCE.incrementScore(GameConfig.COIN_SCORE);
+                    listener.hitCoin();
                 }
             }
         }

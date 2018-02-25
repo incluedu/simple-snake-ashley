@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import net.lustenauer.snake.SimpleSnakeGame;
 import net.lustenauer.snake.assets.AssetDescriptors;
+import net.lustenauer.snake.collision.CollisionListener;
 import net.lustenauer.snake.common.EntityFactory;
 import net.lustenauer.snake.common.GameManager;
 import net.lustenauer.snake.config.GameConfig;
@@ -52,6 +54,9 @@ public class GameScreen extends ScreenAdapter {
     private PooledEngine engine;
     private EntityFactory factory;
     private BitmapFont font;
+    private Sound coinSound;
+    private Sound loseSound;
+    private CollisionListener listener;
 
     private Entity snake;
 
@@ -62,6 +67,18 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         assetManager = game.getAssetManager();
         batch = game.getBatch();
+
+        listener = new CollisionListener() {
+            @Override
+            public void hitCoin() {
+                coinSound.play();
+            }
+
+            @Override
+            public void lose() {
+                loseSound.play();
+            }
+        };
     }
 
     /*
@@ -77,6 +94,8 @@ public class GameScreen extends ScreenAdapter {
         engine = new PooledEngine();
         factory = new EntityFactory(engine, assetManager);
         font = assetManager.get(AssetDescriptors.UI_FONT);
+        coinSound = assetManager.get(AssetDescriptors.COIN_SOUND);
+        loseSound = assetManager.get(AssetDescriptors.LOSE_SOUND);
 
         engine.addSystem(new DebugCameraSystem(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, camera));
         engine.addSystem(new GridRenderSystem(viewport, renderer));
@@ -89,7 +108,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new PlayerControlSystem());
         engine.addSystem(new WorldWrapSystem());
         engine.addSystem(new CoinSystem());
-        engine.addSystem(new CollisionSystem(factory));
+        engine.addSystem(new CollisionSystem(factory, listener));
         engine.addSystem(new RenderSystem(batch, viewport));
         engine.addSystem(new HudRenderSystem(batch, hudViewport, font));
 
